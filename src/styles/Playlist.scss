@@ -165,6 +165,7 @@
         }
     }
 }
+
 .cover-img {
     transition: transform 0.5s ease-in-out;
 }
@@ -173,6 +174,7 @@
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
 }
+
 .cover-volume {
     position: relative;
 
@@ -275,3 +277,92 @@ input[type="range"]::-ms-fill-lower {
     /* White color on the filled part */
     border-radius: 10px;
 }
+
+@media (max-width : 768px) {
+    .playlist-wrapper {
+        width: 35%;
+        padding: 15px;
+
+        .playlist-tabs {
+            gap: 20px;
+
+            .playlist-fy-text,
+            .playlist-tt-text {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .playlist-search-holder {
+        .playlist-search {
+            padding: 4px 8px !important;
+            height: 30px !important;
+            margin: 10px 0 Im !important;
+        }
+
+        .playlist-search::placeholder {
+            font-size: 14px !important;
+        }
+
+        .search-icon {
+            top: 24px !important;
+            right: 11px !important;
+            width: 20px !important;
+            height: 20px !important;
+        }
+    }
+
+    .fy-song {
+        padding: 8px;
+        margin: 8px 0;
+
+        .fy-song-c1 {
+            gap: 10px;
+
+            .fy-c1-s2 {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+
+                .fy-song-name {
+                    font-size: 16px;
+                }
+            }
+        }
+
+    }
+
+    .fy-song-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .cover-song-wrapper {
+        width: 65%;
+        padding: 40px;
+
+        .cover-single {
+            width: 200px;
+            .cover-song-name {
+                font-size: 24px;
+            }
+
+            .cover-artist-name {
+                font-size: 14px;
+                color: #939393;
+                margin: 5px 0 20px 0;
+            }
+
+            .cover-img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+    }
+    .cover-cta-wrapper img {
+        width: 20px;
+        height: 20px;
+    }
+}
+

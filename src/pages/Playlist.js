@@ -9,7 +9,7 @@ import PlayIcon from '../assets/icons/play.png';
 import ForwardIcon from '../assets/icons/forward.png';
 import VolumeIcon from '../assets/icons/volume.png';
 
-const Playlist = () => {
+const Playlist = ({ setBackgroundColor }) => {
     const [currentSelection, setCurrentSelection] = useState('for-you');
     const [fetchData, setFetchData] = useState([]);
     const [searchSong, setSearchSong] = useState('');
@@ -29,6 +29,14 @@ const Playlist = () => {
                 const songData = await res.json();
                 console.log(songData, 'song response');
                 setFetchData(songData.data);
+
+                if (songData.data.length) {
+                    // Access the accent property of the first song
+                    const accentColor = songData.data[0]?.accent;
+                    setBackgroundColor(accentColor);
+                    setCurrentSongIndex(0); // Set default song index to the first song
+                    console.log(accentColor, "Accent Color");
+                }
             } catch (error) {
                 console.error('Error Fetching data', error);
             } finally {
@@ -37,7 +45,14 @@ const Playlist = () => {
         };
 
         fetchSongsData();
-    }, []);
+    }, [setBackgroundColor]);
+
+    useEffect(() => {
+        if (currentSongIndex !== null && fetchData[currentSongIndex]) {
+            const accentColor = fetchData[currentSongIndex].accent;
+            setBackgroundColor(accentColor);
+        }
+    }, [currentSongIndex, fetchData, setBackgroundColor]);
 
     const handleForYouClick = () => {
         setCurrentSelection('for-you');
@@ -94,16 +109,18 @@ const Playlist = () => {
     };
 
     const handleForwardClick = () => {
-        if (currentSongIndex < fetchData.length - 1) {
-            setCurrentSongIndex(currentSongIndex + 1);
-            setIsPlaying(true);
+        const nextIndex = currentSongIndex + 1;
+        if (nextIndex < fetchData.length) {
+            setCurrentSongIndex(nextIndex);
+            setBackgroundColor(fetchData[nextIndex].accent); // Update the accent color in the parent
         }
     };
 
     const handleBackwardClick = () => {
-        if (currentSongIndex > 0) {
-            setCurrentSongIndex(currentSongIndex - 1);
-            setIsPlaying(true);
+        const prevIndex = currentSongIndex - 1;
+        if (prevIndex >= 0) {
+            setCurrentSongIndex(prevIndex);
+            setBackgroundColor(fetchData[prevIndex].accent); // Update the accent color in the parent
         }
     };
 
@@ -202,8 +219,8 @@ const Playlist = () => {
                             <audio
                                 ref={audioRef}
                                 src={fetchData[currentSongIndex].url}
-                                autoPlay
                                 onTimeUpdate={handleTimeUpdate}
+                            // Removed autoPlay to ensure it starts paused
                             />
                             <div className='cover-progress'>
                                 <input
@@ -217,33 +234,52 @@ const Playlist = () => {
                             </div>
                             <div className='cover-cta-wrapper'>
                                 <div className='cover-cta-info'>
-                                    <img src={InfoIcon} />
+                                    <img src={InfoIcon} alt='info' width={40} height={40} />
                                 </div>
-                                <div className='cover-cta-bpf'>
-                                    <div className='cover-cta-back' onClick={handleBackwardClick}>
-                                        <img src={BackIcon} />
-                                    </div>
-                                    <div
-                                        className='cover-cta-pause-play'
-                                        onClick={() => setIsPlaying(!isPlaying)}
-                                    >
-                                        <img src={isPlaying ? PauseIcon : PlayIcon} />
-                                    </div>
-                                    <div className='cover-cta-forward' onClick={handleForwardClick}>
-                                        <img src={ForwardIcon} />
-                                    </div>
+                                <div className='cover-cta-back'>
+                                    <img
+                                        src={BackIcon}
+                                        alt='backward'
+                                        width={40}
+                                        height={40}
+                                        onClick={handleBackwardClick}
+                                    />
                                 </div>
-                                <div className='cover-volume' onClick={toggleVolumeControl}>
-                                    <img src={VolumeIcon} />
+                                <div className='cover-cta-play'>
+                                    <img
+                                        src={isPlaying ? PlayIcon : PauseIcon}
+                                        alt={isPlaying ? 'pause' : 'play'}
+                                        width={40}
+                                        height={40}
+                                        onClick={() => setIsPlaying((prev) => !prev)}
+                                    />
+                                </div>
+                                <div className='cover-cta-forward'>
+                                    <img
+                                        src={ForwardIcon}
+                                        alt='forward'
+                                        width={40}
+                                        height={40}
+                                        onClick={handleForwardClick}
+                                    />
+                                </div>
+                                <div className='cover-volume'>
+                                    <img
+                                        src={VolumeIcon}
+                                        alt='volume'
+                                        width={40}
+                                        height={40}
+                                        onClick={toggleVolumeControl}
+                                    />
                                     {showVolume && (
                                         <input
                                             type='range'
+                                            className='volume-bar'
                                             min='0'
                                             max='1'
                                             step='0.01'
                                             value={volume}
                                             onChange={handleVolumeChange}
-                                            className='volume-bar'
                                         />
                                     )}
                                 </div>

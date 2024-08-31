@@ -7,3 +7,14 @@
     justify-content: space-between;
     align-items: center;
 }
+
+@media (max-width : 769px) {
+    .sidebar-wrapper {
+        display: none;
+    }
+}
+@media (max-width : 580px) {
+    .sidebar-wrapper {
+        display: none;
+    }
+}
