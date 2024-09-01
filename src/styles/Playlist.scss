@@ -343,6 +343,7 @@ input[type="range"]::-ms-fill-lower {
 
         .cover-single {
             width: 200px;
+
             .cover-song-name {
                 font-size: 24px;
             }
@@ -360,9 +361,122 @@ input[type="range"]::-ms-fill-lower {
         }
 
     }
+
     .cover-cta-wrapper img {
         width: 20px;
         height: 20px;
     }
 }
 
+.mobile-menu {
+    display: none;
+}
+
+.mobile-nav-playlist {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    box-shadow: 0 1.2rem 3.2rem rgba(0, 0, 0, 0.06);
+    transition: all 0.4s;
+}
+
+.mobile-nav-content {
+    .mobile-nav-close {
+        position: absolute;
+        right: 30px;
+        top: 18px;
+    }
+
+    .mobile-playlist {
+        .playlist-tabs {
+            display: flex;
+            gap: 30px;
+
+            .playlist-fy-text,
+            .playlist-tt-text {
+                font-size: 16px;
+                font-weight: 700;
+                cursor: pointer;
+                color: grey;
+                transition: all 0.3s;
+                margin-bottom: 10px;
+            }
+
+            .tabActive {
+                color: #fff;
+            }
+        }
+    }
+
+    .playlist-search-holder {
+        position: relative;
+
+        .playlist-search {
+            padding: 4px 8px;
+            width: 100%;
+            height: 25px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .playlist-search::placeholder {
+            font-size: 14px;
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 16px !important;
+            right: 14px !important;
+        }
+    }
+}
+
+@media (max-width: 580px) {
+    .playlist-wrapper {
+        display: none;
+    }
+    .cover-song-wrapper {
+        width: 100%;
+        .cover-single {
+            width: 100%;
+            height: calc(100vh - 66px);
+            display: flex;
+            justify-content: center;
+            .cover-song-name {
+                font-size: 24px;
+            }
+
+            .cover-artist-name {
+                font-size: 14px;
+                color: #939393;
+                margin: 5px 0 20px 0;
+            }
+
+            .cover-img {
+                width: 100%;
+                height: 300px;
+            }
+        }
+
+    }
+    
+
+    .mobile-menu {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 32px;
+    }
+         .cover-cta-wrapper img {
+             width: 30px;
+             height: 30px;
+         }
+
+}

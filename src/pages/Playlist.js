@@ -8,6 +8,8 @@ import PauseIcon from '../assets/icons/pause.png';
 import PlayIcon from '../assets/icons/play.png';
 import ForwardIcon from '../assets/icons/forward.png';
 import VolumeIcon from '../assets/icons/volume.png';
+import { CiMenuBurger } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
 
 const Playlist = ({ setBackgroundColor }) => {
     const [currentSelection, setCurrentSelection] = useState('for-you');
@@ -19,6 +21,7 @@ const Playlist = ({ setBackgroundColor }) => {
     const [progress, setProgress] = useState(0);
     const [volume, setVolume] = useState(1);
     const [showVolume, setShowVolume] = useState(false);
+    const [menuIcon, setMenuIcon] = useState(false)
     const audioRef = useRef(null);
 
     useEffect(() => {
@@ -167,7 +170,7 @@ const Playlist = ({ setBackgroundColor }) => {
                                     onClick={() => handleSongClick(index)}>
                                     <div className='fy-song-c1'>
                                         <div className='fy-c1-s1'>
-                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} className='fy-song-icon' height={48} width={48} />
+                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} className='fy-song-icon' height={48} width={48} alt='cover-img' />
                                         </div>
                                         <div className='fy-c1-s2'>
                                             <span className='fy-song-name'>{song.name}</span>
@@ -186,7 +189,7 @@ const Playlist = ({ setBackgroundColor }) => {
                                 <div className='fy-song' key={index}>
                                     <div className='fy-song-c1'>
                                         <div className='fy-c1-s1'>
-                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} className='fy-song-icon' height={48} width={48} />
+                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} className='fy-song-icon' height={48} width={48} alt='cover-img' />
                                         </div>
                                         <div className='fy-c1-s2'>
                                             <span className='fy-song-name'>{song.name}</span>
@@ -203,7 +206,90 @@ const Playlist = ({ setBackgroundColor }) => {
                 </div>
             </div>
             {/* Cover */}
+
+            {
+                menuIcon && (
+                    <div className='mobile-nav-playlist'>
+                        <div className='mobile-nav-content'>
+                            <IoMdClose className='mobile-nav-close' size={30} onClick={() => setMenuIcon(false)} />
+                            <div className='mobile-playlist'>
+                                <div className='playlist-tabs'>
+                                    <div
+                                        className={`playlist-fy-text ${currentSelection === 'for-you' ? 'tabActive' : ''}`}
+                                        onClick={handleForYouClick}
+                                    >
+                                        For You
+                                    </div>
+                                    <div
+                                        className={`playlist-tt-text ${currentSelection === 'top-tracks' ? 'tabActive' : ''}`}
+                                        onClick={handleTopTrackClick}
+                                    >
+                                        Top Tracks
+                                    </div>
+                                </div>
+                                <div className='playlist-search-holder'>
+                                    <input
+                                        placeholder='Search Songs,Artist'
+                                        className='playlist-search'
+                                        type='text'
+                                        value={searchSong}
+                                        onChange={handleSearchSong}
+                                    />
+                                    <img src={SearchIcon} alt='search' width={32} height={32} className='search-icon' />
+                                </div>
+                                <div className='playlist-tab-content'>
+                                    {loader ? (
+                                        <Loader />
+                                    ) : currentSelection === 'for-you' ? (
+                                        <div className='fy-songs'>
+                                            {allTracks.map((song, index) => (
+                                                <div className='fy-song' key={index}
+                                                    onClick={() => handleSongClick(index)}>
+                                                    <div className='fy-song-c1'>
+                                                        <div className='fy-c1-s1'>
+                                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} className='fy-song-icon' height={48} width={48} alt='cover-img' />
+                                                        </div>
+                                                        <div className='fy-c1-s2'>
+                                                            <span className='fy-song-name'>{song.name}</span>
+                                                            <span className='fy-song-artist'>{song.artist}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='fy-song-c2'>
+                                                        4:10
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className='fy-songs'>
+                                            {allTracks.map((song, index) => (
+                                                <div className='fy-song' key={index}>
+                                                    <div className='fy-song-c1'>
+                                                        <div className='fy-c1-s1'>
+                                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} className='fy-song-icon' height={48} width={48} alt='cover-img' />
+                                                        </div>
+                                                        <div className='fy-c1-s2'>
+                                                            <span className='fy-song-name'>{song.name}</span>
+                                                            <span className='fy-song-artist'>{song.artist}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='fy-song-c2'>
+                                                        4:10
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                )
+            }
+
             <div className='cover-song-wrapper'>
+                <CiMenuBurger className='mobile-menu' size={30} onClick={() => setMenuIcon(true)} />
+                {/* <img src={MenuIcon} alt='menu icon' className='mobile-menu' height={30} width={30} onClick={() => setMenuIcon(true)} /> */}
                 {currentSongIndex !== null && (
                     <div className='cover-single'>
                         <h4 className='cover-song-name'>{fetchData[currentSongIndex].name}</h4>
